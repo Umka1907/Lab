@@ -5,7 +5,7 @@ import citis.DataCities;
 
 public class ShowCommand implements Command {
     public ShowCommand(){CommandExecutor.addCommand("show", this);}
-    String answer ;
+    String answer = "" ;
 
     @Override
     public void execute(String str, DataCities data) {

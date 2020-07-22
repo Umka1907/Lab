@@ -22,6 +22,6 @@ public class Human implements Serializable {
 
     @Override
     public String toString() {
-        return "age= " + age;
+        return "age:" + age;
     }
 }

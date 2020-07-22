@@ -166,19 +166,19 @@ public class City implements Serializable {
 
     @Override
     public String toString() {
-        return "citis.City{" +
+        return
                 "id= " + id +
-                ", name= '" + name + '\'' +
-                ", coordinates= " + coordinates +
-                ", creationDate= " + creationDate +
-                ", area= " + area +
-                ", population= " + population +
-                ", metersAboveSeaLevel= " + metersAboveSeaLevel +
-                ", telephoneCode= " + telephoneCode +
-                ", agglomeration= " + agglomeration +
-                ", government= " + government +
-                ", governor= " + governor +
-                '}';
+                        "\nname:" + name +
+                        "\ncoordinates:" + coordinates +
+                        "\ncreationDate:" + creationDate +
+                        "\narea:" + area +
+                        "\npopulation= " + population +
+                        "\nmetersAboveSeaLevel:" + metersAboveSeaLevel +
+                        "\ntelephoneCode:" + telephoneCode +
+                        "\nagglomeration:" + agglomeration +
+                        "\ngovernment:" + government +
+                        "\ngovernor" + governor + '\n'
+                ;
     }
 
     public int compareTo(City C2) {

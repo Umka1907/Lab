@@ -16,7 +16,10 @@ public class Server {
 
 
     public static void main(String []arg) throws JAXBException {
-        String port = arg[1];
+       try {
+
+           System.out.println("Укажите порт для прослушивания:");
+           String port = Enter.writeString();
         String nameFile = arg[0];
         FileCity fileCity = new FileCity();
         DataCities dataCities = fileCity.readFromXML(nameFile);
@@ -68,6 +71,9 @@ public class Server {
         {
             System.err.println("IOException " + e);
         }
+       }catch (Exception e){
+           System.out.println("Error "+ e);
+       }
     }
 
     public static String commandExecute(Communication com, DataCities dataCities){
@@ -101,6 +107,8 @@ public class Server {
                     return commandRan(com, dataCities);
                 case "history":
                     return commandRan(com, dataCities);
+                case "save":
+                    return "Данные сохранены на сервере";
 
             }
 
@@ -160,6 +168,7 @@ public class Server {
 
     static String update(Communication communication, DataCities dataCities) {
         try {
+
         City updateCity = communication.deserializeCity(communication.getCityArgument());
             dataCities.updateElementById(Integer.parseInt(communication.getParams()), updateCity);
             City city = dataCities.getElementById(Integer.parseInt(communication.getParams()));

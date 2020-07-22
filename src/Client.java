@@ -1,5 +1,6 @@
 import Communication.ClientArgument;
 import Communication.Communication;
+import citis.Enter;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -10,10 +11,12 @@ import java.nio.channels.DatagramChannel;
 public class Client {
 
     public static void main(String []arg) throws JAXBException {
-        String port = arg[2];
-        String host = arg[1];
-        String nameFile = arg[0];
-        try {
+        try{
+            System.out.println("Укажите имя хоста:");
+            String host = Enter.writeString();
+            System.out.println("Укажите порт:");
+            String port = Enter.writeString();
+        String nameFile = "newCity.xml";
         ClientArgument clientArgument = new ClientArgument();
         Communication communication = null;
         String and = new String();
