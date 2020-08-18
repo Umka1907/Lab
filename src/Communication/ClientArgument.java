@@ -17,7 +17,7 @@ public class ClientArgument {
 
     private String nameFile = new String();
 
-    private String type;
+    private static String type;
 
     private String cityArgument;
 
@@ -35,6 +35,10 @@ public class ClientArgument {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getParams() {
         return params;
     }
@@ -43,67 +47,22 @@ public class ClientArgument {
         this.params = params;
     }
 
-    public void param(String nameFile) throws IOException, JAXBException {
-        this.nameFile = nameFile;
+    public void param() throws IOException, JAXBException {
+
         String enter = enterCommand.enterCommand();
-        String[] actionParts = enter.split(" ");
-        if (actionParts.length == 1){
-            type = actionParts[0];
-        }
-        else if (actionParts.length == 2){
-            type = actionParts[0];
-            params = actionParts[1];
-        }
-        else {
-            System.out.println("Необрабатываемый запрос. Ввидите коректный запрос (Запрос может содержать: команду или команду + фргумент) ");
-            param(nameFile);
-        }
-        getCityArg();
+        bagging(enter);
+
     }
 
     public void getCityArg() throws IOException, JAXBException {
 
-
-        DataCities dataCities = fileCity.readFromXML( nameFile);
-
-
-        if((type.equals("update")) ) {
-            if ((!params.isEmpty()) && (dataCities.arrayListId().contains(Integer.parseInt(params)))) {
-                City cityArg = DataNewCity.newCity();
-                cityArgument = serializeArg(cityArg);
-            } else {
-                System.out.println("Элемента с таким id нет в коллекции или id не был указан");
-                param(nameFile);
-            }
-        }
-
-        if ((type.equals("add")) || (type.equals("add_if_min"))) {
+        if ( (type.equals("add"))  ||  (type.equals("add_if_min")) || (type.trim().equals("update_data")) ) {
             City cityArg = DataNewCity.newCity();
             cityArgument = serializeArg(cityArg);
-        }
+        }}
 
-        if ((type.equals("execute_script"))){
-            AddCommand addCommand = new AddCommand();
-            AddIfMinCommand addIfMinCommand = new AddIfMinCommand();
-            ClearCommand clearCommand = new ClearCommand();
-            ExitCommand exitCommand = new ExitCommand();
-            RemoveByIdCommand removeByIdCommand = new RemoveByIdCommand();
-            UpdateCommand updateCommand = new UpdateCommand();
-            MaxByMetersAboveSeaLevelCommand maxByMetersAboveSeaLevelCommand = new MaxByMetersAboveSeaLevelCommand();
-            ShowCommand showCommand = new ShowCommand();
-            RemoveGreaterCommand removeGreaterCommand = new RemoveGreaterCommand();
-            GroupCountingByGovernmentCommand groupCountingByGovernmentCommand = new GroupCountingByGovernmentCommand();
-            HelpCommand helpCommand = new HelpCommand();
-            InfoCommand infoCommand = new InfoCommand();
-            FilterContainsNameCommand filterContainsNameCommand = new FilterContainsNameCommand();
-            HistoryCommand historyCommand = new HistoryCommand();
-            SaveCommand saveCommand = new SaveCommand();
-            ExecuteScriptCommand executeScriptCommand = new ExecuteScriptCommand();
-            commandExecutor.execute(type+" "+ params,dataCities );
-            commandExecutor.execute("save "+ nameFile,dataCities );
 
-        }
-    }
+
 
     private String serializeArg(City city) throws IOException {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
@@ -113,5 +72,19 @@ public class ClientArgument {
         return Base64.encode(bo.toByteArray());
     }
 
+    public void bagging(String bag) throws IOException, JAXBException {
+        String[] actionParts = bag.split(" ");
+        if (actionParts.length == 1){
+            type = actionParts[0];
+        }
+        else if (actionParts.length == 2){
+            type = actionParts[0];
+            params = actionParts[1];
+        }
+        else {
+            System.out.println("Необрабатываемый запрос. Ввидите коректный запрос (Запрос может содержать: команду или команду + аргумент) ");
+            param();
+        }
+    }
 
 }

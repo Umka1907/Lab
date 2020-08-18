@@ -1,8 +1,10 @@
 package citis;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
-
+@XmlAccessorType(XmlAccessType.NONE)
 public class Coordinates implements Serializable {
     @XmlElement
     private Float x; //Поле не может быть null
@@ -15,6 +17,14 @@ public class Coordinates implements Serializable {
 
     public void setY(Long y) {
         this.y = y;
+    }
+
+    public Float getX() {
+        return x;
+    }
+
+    public Long getY() {
+        return y;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package Commands;
 
+import Communication.ClientArgument;
 import citis.DataCities;
 import citis.Enter;
 import citis.Inputting;
@@ -13,6 +14,7 @@ public class ExecuteScriptCommand implements Command {
 
     @Override
     public void execute(String str, DataCities data)  {
+        ClientArgument clientArgument = new ClientArgument();
         if (str != null) {
             try {
                 if (Inputting.runningScriptNames.contains(str)) {
@@ -33,8 +35,9 @@ public class ExecuteScriptCommand implements Command {
 
                     }else{
                         Enter.history(commandFromAFile);
-                        String ans = CommandExecutor.execute(commandFromAFile, data);
-                        System.out.println( ans);
+                        clientArgument.setType(commandFromAFile);
+//                        String ans = CommandExecutor.execute(commandFromAFile, data);
+//                        System.out.println( ans);
                     }
                 }
 

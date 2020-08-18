@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 
 /**
@@ -170,6 +171,19 @@ public class DataCities  {
         }
         return names;
     }
+
+//    public LinkedList<City> sorted (){
+//        LinkedList<City> sorted = new LinkedList<>();
+//        Float x;
+//        Long y;
+//
+//        for (City city: cities){
+//            if(Inputting.getListCommands().peekLast()==null){
+//
+//            }
+//                names.add(city);
+//
+//    }
 
 
 

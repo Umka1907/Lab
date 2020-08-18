@@ -1,14 +1,13 @@
 import Commands.*;
 import Communication.Communication;
-import citis.City;
-import citis.DataCities;
-import citis.Enter;
-import citis.FileCity;
+import citis.*;
 
 import javax.xml.bind.JAXBException;
+import java.io.Console;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.Scanner;
 
 public class Server {
     static CommandExecutor commandExecutor = new CommandExecutor();
@@ -16,6 +15,8 @@ public class Server {
 
 
     public static void main(String []arg) throws JAXBException {
+
+
        try {
 
            System.out.println("Укажите порт для прослушивания:");
@@ -40,22 +41,41 @@ public class Server {
             byte[] buffer = new byte[65536];
             DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
 
-            System.out.println("Ожидаем данные...");
+
 
             while(true)
             {
+                System.out.println("Ожидаем данные...");
+
+
                 //Получаем данные
                 sock.receive(incoming);
                 byte[] data = incoming.getData();
                 String s = new String(data, 0, incoming.getLength());
                 communication = Communication.deserializeFromString(s);
+
                 System.out.println("Сервер получил: " + communication.getType());
                 enter.history(communication.getType());
+
+                //проверка ид
+                if((communication.getType().equals("update")) ) {
+                    if ((!communication.getParams().isEmpty()) && (dataCities.arrayListId().contains(Integer.parseInt(communication.getParams())))) {
+                        String sms = "В коллекции есть элемент с указанным id введите изменения:";
+                        DatagramPacket dp = new DatagramPacket(sms.getBytes() , sms.getBytes().length , incoming.getAddress() , incoming.getPort());
+                        sock.send(dp);
+
+                    } else {
+                        String sms = "Элемента с таким id нет в коллекции или id не был указан";
+                        DatagramPacket dp = new DatagramPacket(sms.getBytes() , sms.getBytes().length , incoming.getAddress() , incoming.getPort());
+                        sock.send(dp);
+                    }
+                }else{
 
 
                 //Ответ
                 if (communication.getType().equals("exit")){
-                    System.out.println("Клиент законцил работу.");
+                    commandExecutor.execute("save " + nameFile, dataCities);
+                    System.out.println("Клиент законцил работу. Результаты работы сохранены в файл: "+ nameFile);
                 }else {
                     s = commandExecute(communication, dataCities);
                     DatagramPacket dp = new DatagramPacket(s.getBytes() , s.getBytes().length , incoming.getAddress() , incoming.getPort());
@@ -63,7 +83,8 @@ public class Server {
                 }
 
 
-                commandExecutor.execute("save" + nameFile, dataCities);
+
+            }
             }
         }
 
@@ -101,14 +122,13 @@ public class Server {
                     return executeScript(com, dataCities);
                 case "filter_contains_name":
                     return commandRan(com, dataCities);
-                case "update":
+                case "update_data":
                     return update(com, dataCities);
                 case "remove_greater":
                     return commandRan(com, dataCities);
                 case "history":
                     return commandRan(com, dataCities);
-                case "save":
-                    return "Данные сохранены на сервере";
+
 
             }
 
@@ -181,7 +201,7 @@ public class Server {
 
 
     static String executeScript(Communication communication, DataCities dataCities){
-        return "executeScript выполнена";
+        return "Ожидание команд из файла.";
     }
 
 }

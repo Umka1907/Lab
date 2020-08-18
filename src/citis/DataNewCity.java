@@ -1,6 +1,7 @@
 package citis;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -214,10 +215,16 @@ public class DataNewCity {
                 if(age> 100){
                     System.out.println("Значение поля слишком большое, думаю Ваш губернатор уже на пенсии. Пожалуйста введите адекватнай возраст. ");
                 }
+                if (age<35){
+                    System.out.println("Значение поля слишком мало, Возраст губернатора должен быть не менее 35 лет. Пожалуйста введите адекватнай возраст.  ");
+                }
+
             }
             governor = new Human();
             governor.setAge(age);
 
         return governor;
     }
+
+
 }
