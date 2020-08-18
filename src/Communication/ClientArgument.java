@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.LinkedList;
 
 public class ClientArgument {
     Enter enterCommand = new Enter();
@@ -16,6 +17,7 @@ public class ClientArgument {
     FileCity fileCity = new FileCity();
 
     private String nameFile = new String();
+    public LinkedList<String> com = new LinkedList();
 
     private static String type;
 
@@ -47,6 +49,7 @@ public class ClientArgument {
         this.params = params;
     }
 
+
     public void param() throws IOException, JAXBException {
 
         String enter = enterCommand.enterCommand();
@@ -55,6 +58,26 @@ public class ClientArgument {
     }
 
     public void getCityArg() throws IOException, JAXBException {
+        com.add("add");
+        com.add("help");
+        com.add("show");
+        com.add("history");
+        com.add("update");
+        com.add("filter_contains_name");
+        com.add("info");
+        com.add("remove_by_id");
+        com.add("clear");
+        com.add("execute_script");
+        com.add("exit");
+        com.add("add_if_min");
+        com.add("remove_greater");
+        com.add("max_by_meters_above_sea_level");
+        com.add("group_counting_by_government");
+        if (com.contains(type.trim())!=true){
+            System.out.println("НЕИЗВЕСТНЫЙ ТИП КОМАНДЫ. Повторите запрос");
+            param();
+        }
+
 
         if ( (type.equals("add"))  ||  (type.equals("add_if_min")) || (type.trim().equals("update_data")) ) {
             City cityArg = DataNewCity.newCity();
