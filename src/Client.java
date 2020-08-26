@@ -18,7 +18,6 @@ public class Client {
             String host = Enter.writeString();
             System.out.println("Укажите порт:");
             String port = Enter.writeString();
-            String nameFile = "newCity.xml";
             ClientArgument clientArgument = new ClientArgument();
             Communication communication = null;
             String and = new String();
